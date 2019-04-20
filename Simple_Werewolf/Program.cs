@@ -18,8 +18,12 @@ namespace Simple_Werewolf
                 persons.Add(temp);
             }
 
-            persons[2].isDead = true;
+            //persons[2].isDead = true;
+
             Person per = Person.ListUpMember(persons);
+            //List<string> str = persons.Select(x => x.PlayerName).ToList();
+            //Console.WriteLine(per.PlayerName);
+            //int count = DisplayLibrary.SelectDisplay(str,3);
             Console.WriteLine(per.PlayerName);
             Console.ReadKey();
         }

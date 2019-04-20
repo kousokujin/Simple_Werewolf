@@ -23,35 +23,43 @@ namespace Simple_Werewolf
 
         public abstract void NightAction(List<Person> JoinPlayers);
 
+        /// <summary>
+        /// 引数で与えられたプレイヤーを選択させる画面を表示する。
+        /// （生きてる人だけ）
+        /// </summary>
+        /// <param name="JoinPlayers">プレイヤー</param>
+        /// <returns>選択されたプレイヤー</returns>
         public static Person ListUpMember(List<Person> JoinPlayers)
         {
-            Person output = null;
-            bool isDisplayed = false;
-            byte LivingPeopleCount = 0;
+            //Person output = null;
+            //bool isDisplayed = false;
 
-            List<Person> LivingPeople = new List<Person>();
-            foreach(Person p in JoinPlayers)
-            {
-                if(p.isDead == false)
-                {
-                    LivingPeople.Add(p);
-                }
-            }
+            List<Person> LivingPeople = JoinPlayers.Where(x => x.isDead == false).ToList();
 
+            Console.WriteLine("プレイヤーを選んでください。\n");
+
+            int p = DisplayLibrary.SelectDisplay(
+                    LivingPeople.Select(x => x.PlayerName).ToList(),
+                    4
+                );
+            return LivingPeople[p];
+
+            /*
             do
             {
+                Console.WriteLine("プレイヤーを選んでください。");
+
+                int p = DisplayLibrary.SelectDisplay(
+                        LivingPeople.Select(x => x.PlayerName).ToList()
+                    );
                 if (isDisplayed == false)
                 {
                     byte count = 1;
                     Console.WriteLine("プレイヤーを選んでください。");
-                    foreach (Person Player in JoinPlayers)
+                    foreach (Person Player in LivingPeople)
                     {
-                        if (Player.isDead == false)
-                        {
-                            LivingPeopleCount++;
                             Console.WriteLine("[{0}]:{1}", count, Player.PlayerName);
                             count++;
-                        }
                     }
                     isDisplayed = true;
                 }
@@ -64,7 +72,7 @@ namespace Simple_Werewolf
                 {
                     int point = int.Parse(KeyboardInput);
 
-                    if(LivingPeopleCount >= point && point > 0)
+                    if(LivingPeople.Count() >= point && point > 0)
                     {
 
                         output = LivingPeople[point-1];
@@ -75,8 +83,8 @@ namespace Simple_Werewolf
                     output = null;
                 }
             } while (output == null);
-
             return output;
+            */
         }
     }
 }
