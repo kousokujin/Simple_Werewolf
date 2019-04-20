@@ -10,6 +10,18 @@ namespace Simple_Werewolf
     {
         static void Main(string[] args)
         {
+            List<Person> persons = new List<Person>();
+            for (int i = 0; i < 5; i++)
+            {
+                string name = string.Format("player{0}", i);
+                Wolf temp= new Wolf(name);
+                persons.Add(temp);
+            }
+
+            persons[2].isDead = true;
+            Person per = Person.ListUpMember(persons);
+            Console.WriteLine(per.PlayerName);
+            Console.ReadKey();
         }
     }
 }
