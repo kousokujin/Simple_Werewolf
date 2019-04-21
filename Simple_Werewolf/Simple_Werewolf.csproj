@@ -44,9 +44,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DisplayLibrary.cs" />
+    <Compile Include="Guardman.cs" />
+    <Compile Include="Madman.cs" />
+    <Compile Include="Paychic.cs" />
     <Compile Include="Person.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Prophet.cs" />
+    <Compile Include="Villager.cs" />
     <Compile Include="Wolf.cs" />
   </ItemGroup>
   <ItemGroup>

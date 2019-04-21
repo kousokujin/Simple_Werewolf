@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Simple_Werewolf
 {
-    class Wolf : Person
+    class Guardman : Person
     {
-        public Wolf(string name) : base()
+        public Guardman(string name) : base()
         {
             innerPlayerName = name;
         }
@@ -17,7 +17,7 @@ namespace Simple_Werewolf
         {
             get
             {
-                return true;
+                return false;
             }
         }
 
@@ -25,7 +25,7 @@ namespace Simple_Werewolf
         {
             get
             {
-                return PlayerPosition.Werewolf;
+                return PlayerPosition.Guardman;
             }
         }
 
@@ -33,18 +33,18 @@ namespace Simple_Werewolf
         {
             get
             {
-                return true;
+                return false;
             }
         }
 
         override public void NightAction(List<Person> people)
         {
             Console.Write("あなたは");
-            DisplayLibrary.ColorConsole("人狼", ConsoleColor.White, ConsoleColor.Red);
+            DisplayLibrary.ColorConsole("狩人", ConsoleColor.Blue, ConsoleColor.White);
             Console.WriteLine("です。");
 
-            Person target = ListUpMember(people,"今日のターゲットを選んでください。");
-            target.isTarget = true;
+            Person target = ListUpMember(people, "今日の守る人を選んでください。");
+            target.isProtect = true;
         }
     }
 }

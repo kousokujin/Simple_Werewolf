@@ -17,14 +17,15 @@ namespace Simple_Werewolf
                 Wolf temp= new Wolf(name);
                 persons.Add(temp);
             }
+            Paychic v = new Paychic("player5");
+            v.Executioned = persons[0];
+            persons.Add(v);
 
             //persons[2].isDead = true;
 
-            Person per = Person.ListUpMember(persons);
-            //List<string> str = persons.Select(x => x.PlayerName).ToList();
-            //Console.WriteLine(per.PlayerName);
-            //int count = DisplayLibrary.SelectDisplay(str,3);
-            Console.WriteLine(per.PlayerName);
+            persons[5].NightAction(persons);
+            Person.ChangeDisplay(persons[5].PlayerName, persons[1].PlayerName);
+
             Console.ReadKey();
         }
     }

@@ -79,5 +79,34 @@ namespace Simple_Werewolf
             Console.SetCursorPosition(0, Console.CursorTop + (choices.Count() - point));
             return point;
         }
+
+        /// <summary>
+        /// コンソールに色を使って表示（改行なし)
+        /// </summary>
+        /// <param name="str">表示する文字</param>
+        /// <param name="Foreground">文字色</param>
+        /// <param name="Background">背景色</param>
+        /// <param name="args">引数</param>
+        public static void ColorConsole(string str, ConsoleColor Foreground,ConsoleColor Background,params string[] args)
+        {
+            Console.BackgroundColor = Background;
+            Console.ForegroundColor = Foreground;
+            Console.Write(str, args);
+            Console.BackgroundColor = ConsoleColor.Black;
+            Console.ForegroundColor = ConsoleColor.White;
+        }
+        
+        /// <summary>
+        /// コンソールに色を使って表示（改行あり)
+        /// </summary>
+        /// <param name="str">表示する文字</param>
+        /// <param name="Foreground">文字色</param>
+        /// <param name="Background">背景色</param>
+        /// <param name="args">引数</param>
+        public static void ColorConsoleLine(string str, ConsoleColor Foreground, ConsoleColor Background,params string[] args)
+        {
+            DisplayLibrary.ColorConsole(str, Foreground, Background, args);
+            Console.WriteLine();
+        }
     }
 }
