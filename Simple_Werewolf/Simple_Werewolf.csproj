@@ -44,6 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DisplayLibrary.cs" />
+    <Compile Include="GameMaster.cs" />
     <Compile Include="Guardman.cs" />
     <Compile Include="Madman.cs" />
     <Compile Include="Paychic.cs" />

@@ -9,9 +9,9 @@ namespace Simple_Werewolf
 {
     class Paychic : Person
     {
-        public Paychic(string name) : base()
+        public Paychic(string name) : base(name)
         {
-            innerPlayerName = name;
+            //innerPlayerName = name;
         }
 
         public override PlayerPosition Position

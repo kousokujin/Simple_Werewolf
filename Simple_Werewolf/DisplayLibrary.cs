@@ -80,6 +80,19 @@ namespace Simple_Werewolf
             return point;
         }
 
+        public static bool YesOrNo(int shift=0,string message = "")
+        {
+            if(message != "")
+            {
+                Console.WriteLine(message);
+            }
+
+            List<string> select = new List<string>() { "はい", "いいえ" };
+            int result = SelectDisplay(select, shift);
+
+            return result == 0;
+        }
+
         /// <summary>
         /// コンソールに色を使って表示（改行なし)
         /// </summary>

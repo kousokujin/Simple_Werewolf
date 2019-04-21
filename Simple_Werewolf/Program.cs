@@ -10,6 +10,7 @@ namespace Simple_Werewolf
     {
         static void Main(string[] args)
         {
+            /*
             List<Person> persons = new List<Person>();
             for (int i = 0; i < 5; i++)
             {
@@ -25,8 +26,19 @@ namespace Simple_Werewolf
 
             persons[5].NightAction(persons);
             Person.ChangeDisplay(persons[5].PlayerName, persons[1].PlayerName);
+            */
 
+            debug1();
             Console.ReadKey();
+        }
+
+
+        //デバッグ用
+        static void debug1()
+        {
+            GameMaster master = new GameMaster();
+            master.JoinMember();
+            master.DecisionCast();
         }
     }
 }

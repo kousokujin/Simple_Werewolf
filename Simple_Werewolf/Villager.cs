@@ -9,9 +9,9 @@ namespace Simple_Werewolf
 {
     class Villager : Person
     {
-        public Villager(string name) :base()
+        public Villager(string name) :base(name)
         {
-            innerPlayerName = name;
+            //innerPlayerName = name;
         }
         public override PlayerPosition Position
         {

@@ -8,9 +8,9 @@ namespace Simple_Werewolf
 {
     class Prophet : Person
     {
-        public Prophet(string name)
+        public Prophet(string name) : base(name)
         {
-            innerPlayerName = name;
+            //innerPlayerName = name;
         }
 
         public override bool IsWerewolf

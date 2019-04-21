@@ -14,11 +14,12 @@ namespace Simple_Werewolf
         protected string innerPlayerName;
 
 
-        protected Person()
+        protected Person(string name)
         {
             isTarget = false;
             isProtect = false;
             isDead = false;
+            innerPlayerName = name;
         }
         /// <summary>
         /// プレイヤーの役職
