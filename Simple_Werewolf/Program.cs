@@ -39,6 +39,7 @@ namespace Simple_Werewolf
             GameMaster master = new GameMaster();
             master.JoinMember();
             master.DecisionCast();
+            master.setCast();
         }
     }
 }

@@ -8,6 +8,12 @@ namespace Simple_Werewolf
 {
     class Guardman : Person
     {
+        /// <summary>
+        /// コンソールに表示する色
+        /// </summary>
+        public static ConsoleColor Forground = ConsoleColor.DarkYellow;
+        public static ConsoleColor Background = ConsoleColor.Black;
+
         public Guardman(string name) : base(name)
         {
             //innerPlayerName = name;
@@ -40,7 +46,7 @@ namespace Simple_Werewolf
         override public void NightAction(List<Person> people)
         {
             Console.Write("あなたは");
-            DisplayLibrary.ColorConsole("狩人", ConsoleColor.Blue, ConsoleColor.White);
+            DisplayLibrary.ColorConsole("狩人", Forground, Background);
             Console.WriteLine("です。");
 
             Person target = ListUpMember(people, "今日の守る人を選んでください。");

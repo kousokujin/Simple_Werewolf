@@ -44,7 +44,7 @@ namespace Simple_Werewolf
         }
 
         /// <summary>
-        /// 参加者の役職を決める。
+        /// 参加者の役職の人数を決める
         /// </summary>
         public void DecisionCast()
         {
@@ -123,9 +123,34 @@ namespace Simple_Werewolf
             }
 
             Console.WriteLine();
+
+            //色を表示
+            List<ConsoleColor> ForgroundList = new List<ConsoleColor>() {
+                Villager.Forground,
+                Wolf.Forground,
+                Prophet.Forground,
+                Paychic.Forground,
+                Guardman.Forground,
+                Madman.Forground,
+            };
+
+            List<ConsoleColor> BackgroundList = new List<ConsoleColor>() {
+                Villager.Background,
+                Wolf.Background,
+                Prophet.Background,
+                Paychic.Background,
+                Guardman.Background,
+                Madman.Background,
+            };
+
             foreach (var s in castlist.Select((v, i) => new { v, i }))
             {
-                Console.WriteLine("{0,-10:G10}:{1}人", s.v, CastCount[s.i]);
+                DisplayLibrary.ColorConsole("{0}", ForgroundList[s.i], BackgroundList[s.i], s.v);
+
+                int space = 5 - s.v.Length; //文字スペース
+                Console.Write(new string(' ', space*2));
+
+                Console.WriteLine("{0,5}人", CastCount[s.i]);
             }
 
             bool result = DisplayLibrary.YesOrNo(0, "\nこれでいいですか？");
@@ -134,6 +159,88 @@ namespace Simple_Werewolf
             {
                 DecisionCast();
             }
+        }
+
+        /// <summary>
+        /// 配役を行う。
+        /// </summary>
+        public void setCast()
+        {
+            Players.Clear();
+            
+            //カードに見立てて配役
+            List<int> card = new List<int>();
+            int CardNumber = 0;
+            foreach(var c in CastCount)
+            {
+                for(int i = 0; i < c; i++)
+                {
+                    card.Add(CardNumber);
+                }
+                CardNumber++;
+            }
+
+            //カードをシャッフル
+            Random r = new Random();
+            card = card.OrderBy(a => r.Next(card.Count)).ToList();
+            List<Wolf> wolflist = new List<Wolf>();
+
+            foreach(var member in MemberName.Select((name,n) =>new {name,n}))
+            {
+                Person temp =null;
+                switch (card[member.n])
+                {
+                    case 0:
+                        temp = new Villager(member.name);
+                        break;
+                    case 1:
+                        temp = new Wolf(member.name);
+                        wolflist.Add(temp as Wolf);
+                        break;
+                    case 2:
+                        temp = new Prophet(member.name);
+                        break;
+                    case 3:
+                        temp = new Paychic(member.name);
+                        break;
+                    case 4:
+                        temp = new Guardman(member.name);
+                        break;
+                    case 5:
+                        temp = new Madman(member.name);
+                        break;
+                    default:
+                        break;
+                }
+
+                Players.Add(temp);
+            }
+
+            wolflist.Select(x => x.Otherwolf = wolflist);
+        }
+
+        /// <summary>
+        /// 夜の行動後の処理
+        /// </summary>
+        /// <returns>犠牲者</returns>
+        public List<Person> NightProcess()
+        {
+            List<Person> Victim = new List<Person>();
+
+            foreach(var p in Players)
+            {
+                //人狼のターゲットか
+                if(p.isTarget == true) {
+                    if(p.isProtect == false)
+                    {
+                        //狩人にガードされてない村人は死
+                        p.isDead = true;
+                        Victim.Add(p);
+                    }
+                }
+            }
+
+            return Victim;
         }
     }
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Threading;
 
 namespace Simple_Werewolf
 {
@@ -63,7 +64,7 @@ namespace Simple_Werewolf
         public abstract void NightAction(List<Person> JoinPlayers);
 
         /// <summary>
-        /// 引数で与えられたプレイヤーを選択させる画面を表示する。
+        /// 引数で与えられたプレイヤーを選択させる画面を表示する。(自分は表示しない)
         /// （生きてる人だけ）
         /// </summary>
         /// <param name="JoinPlayers">プレイヤー</param>
@@ -74,14 +75,24 @@ namespace Simple_Werewolf
             //bool isDisplayed = false;
 
             List<Person> LivingPeople = JoinPlayers.Where(x => (x.isDead == false)&&(x != this)).ToList();
+            return StaticListUpMember(LivingPeople, message);
+        }
 
+        /// <summary>
+        /// 引数で与えられたプレイヤーを選択させる画面を表示する。
+        /// /// </summary>
+        /// <param name="JoinPlayers">表示するプレイヤー</param>
+        /// <param name="message">メッセージ</param>
+        /// <returns>選択されたプレイヤー</returns>
+        public static Person StaticListUpMember(List<Person> JoinPlayers, string message = "プレイヤーを選んでください。")
+        {
             Console.WriteLine(message + "\n");
 
             int p = DisplayLibrary.SelectDisplay(
-                    LivingPeople.Select(x => x.PlayerName).ToList(),
-                    4
+                    JoinPlayers.Select(x => x.PlayerName).ToList(),
+                    0
                 );
-            return LivingPeople[p];
+            return JoinPlayers[p];
         }
 
         /// <summary>
@@ -112,6 +123,20 @@ namespace Simple_Werewolf
             }
             Console.ReadKey();
             Console.Clear();
+        }
+
+        /// <summary>
+        /// 待機する画面を出す。
+        /// </summary>
+        /// <param name="time">時間(秒)</param>
+        public static void wait(int time)
+        {
+            for (int i = time; i >= 0; i--)
+            {
+                Console.CursorLeft = 0;
+                Console.Write("{0}秒間待機してください。", i);
+                Thread.Sleep(1000);
+            }
         }
     }
 

@@ -9,6 +9,12 @@ namespace Simple_Werewolf
 {
     class Villager : Person
     {
+        /// <summary>
+        /// コンソールに表示する色
+        /// </summary>
+        public static ConsoleColor Forground = ConsoleColor.Green;
+        public static ConsoleColor Background = ConsoleColor.Black;
+
         public Villager(string name) :base(name)
         {
             //innerPlayerName = name;
@@ -40,16 +46,11 @@ namespace Simple_Werewolf
         public override void NightAction(List<Person> JoinPlayers)
         {
             Console.Write("あなたは");
-            DisplayLibrary.ColorConsole("村人", ConsoleColor.Green, ConsoleColor.Black);
+            DisplayLibrary.ColorConsole("村人", Forground, Background);
             Console.WriteLine("です。");
             //Console.WriteLine("10秒間待機してください。");
 
-            for(int i = 10;i >= 0; i--)
-            {
-                Console.CursorLeft = 0;
-                Console.Write("{0}秒間待機してください。",i);
-                Thread.Sleep(1000);
-            }
+            wait(10);
         }
     }
 }

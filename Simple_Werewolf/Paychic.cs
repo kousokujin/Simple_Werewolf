@@ -9,6 +9,13 @@ namespace Simple_Werewolf
 {
     class Paychic : Person
     {
+
+        /// <summary>
+        /// コンソールに表示する色
+        /// </summary>
+        public static ConsoleColor Forground = ConsoleColor.Blue;
+        public static ConsoleColor Background = ConsoleColor.Black;
+
         public Paychic(string name) : base(name)
         {
             //innerPlayerName = name;
@@ -47,27 +54,22 @@ namespace Simple_Werewolf
         public override void NightAction(List<Person> JoinPlayers)
         {
             Console.Write("あなたは");
-            DisplayLibrary.ColorConsole("霊能力者", ConsoleColor.Cyan, ConsoleColor.Black);
+            DisplayLibrary.ColorConsole("霊能力者", Forground, Background);
             Console.WriteLine("です。");
             //Console.WriteLine("10秒間待機してください。");
             Console.Write("先程処刑した{0}さんは", Executioned.PlayerName);
 
             if (Executioned.IsWerewolf)
             {
-                DisplayLibrary.ColorConsole("人狼", ConsoleColor.Red, ConsoleColor.White);
+                DisplayLibrary.ColorConsole("人狼", Wolf.Forground, Wolf.Background);
             }
             else
             {
-                DisplayLibrary.ColorConsole("村人", ConsoleColor.Blue, ConsoleColor.White);
+                DisplayLibrary.ColorConsole("村人", Villager.Forground,  Villager.Background);
             }
             Console.WriteLine("です。\n");
 
-            for (int i = 10; i >= 0; i--)
-            {
-                Console.CursorLeft = 0;
-                Console.Write("{0}秒間待機してください。", i);
-                Thread.Sleep(1000);
-            }
+            Person.wait(10);
         }
     }
 }

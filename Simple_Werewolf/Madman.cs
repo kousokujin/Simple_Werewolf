@@ -9,6 +9,12 @@ namespace Simple_Werewolf
 {
     class Madman : Villager
     {
+        /// <summary>
+        /// コンソールに表示する色
+        /// </summary>
+        public new static ConsoleColor Forground = ConsoleColor.White;
+        public new static ConsoleColor Background = ConsoleColor.DarkMagenta;
+
         public Madman(string name) : base(name)
         {
         }
@@ -36,12 +42,7 @@ namespace Simple_Werewolf
             Console.WriteLine("です。");
             //Console.WriteLine("10秒間待機してください。");
 
-            for (int i = 10; i >= 0; i--)
-            {
-                Console.CursorLeft = 0;
-                Console.Write("{0}秒間待機してください。", i);
-                Thread.Sleep(1000);
-            }
+            wait(10);
         }
     }
 }

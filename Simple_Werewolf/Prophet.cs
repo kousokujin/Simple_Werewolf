@@ -8,6 +8,12 @@ namespace Simple_Werewolf
 {
     class Prophet : Person
     {
+        /// <summary>
+        /// コンソールに表示する色
+        /// </summary>
+        public static ConsoleColor Forground = ConsoleColor.Cyan;
+        public static ConsoleColor Background = ConsoleColor.Black;
+
         public Prophet(string name) : base(name)
         {
             //innerPlayerName = name;
@@ -40,7 +46,7 @@ namespace Simple_Werewolf
         override public void NightAction(List<Person> people)
         {
             Console.Write("あなたは");
-            DisplayLibrary.ColorConsole("占い師", ConsoleColor.DarkGreen, ConsoleColor.White);
+            DisplayLibrary.ColorConsole("占い師", Forground, Background);
             Console.WriteLine("です。");
 
             Person target = ListUpMember(people, "今日占う人を選んでください。");
@@ -49,11 +55,11 @@ namespace Simple_Werewolf
             Console.Write("{0}さんは",target.PlayerName);
             if (isWolf)
             {
-                DisplayLibrary.ColorConsole("人狼", ConsoleColor.Red, ConsoleColor.White);
+                DisplayLibrary.ColorConsole("人狼", Wolf.Forground, Wolf.Background);
             }
             else
             {
-                DisplayLibrary.ColorConsole("村人", ConsoleColor.Blue, ConsoleColor.White);
+                DisplayLibrary.ColorConsole("村人", Villager.Forground, Villager.Background);
             }
             Console.WriteLine("です。");
 

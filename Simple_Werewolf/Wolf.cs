@@ -8,9 +8,21 @@ namespace Simple_Werewolf
 {
     class Wolf : Person
     {
+        /// <summary>
+        /// コンソールに表示する色
+        /// </summary>
+        public static ConsoleColor Forground = ConsoleColor.White;
+        public static ConsoleColor Background = ConsoleColor.DarkRed;
+
+        /// <summary>
+        /// 他の人狼
+        /// </summary>
+        public List<Wolf> Otherwolf;
+
         public Wolf(string name) : base(name)
         {
             //innerPlayerName = name;
+            OtherOwlf = new List<Wolf>();
         }
 
         public override bool IsWerewolf
@@ -40,10 +52,17 @@ namespace Simple_Werewolf
         override public void NightAction(List<Person> people)
         {
             Console.Write("あなたは");
-            DisplayLibrary.ColorConsole("人狼", ConsoleColor.White, ConsoleColor.Red);
+            DisplayLibrary.ColorConsole("人狼", Wolf.Forground, Wolf.Background);
+            Console.WriteLine("です。");
+            Console.Write("他の人狼は");
+            
+            foreach(Wolf w in Otherwolf.Where(x=>(x != this)))
+            {
+                Console.Write("{0}さん　", w.PlayerName);
+            }
             Console.WriteLine("です。");
 
-            Person target = ListUpMember(people,"今日のターゲットを選んでください。");
+            Person target = ListUpMember(people.Where(x=>x.Position != PlayerPosition.Werewolf).ToList(),"今日のターゲットを選んでください。");
             target.isTarget = true;
         }
     }
