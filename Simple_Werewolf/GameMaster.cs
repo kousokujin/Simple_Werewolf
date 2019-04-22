@@ -216,7 +216,13 @@ namespace Simple_Werewolf
                 Players.Add(temp);
             }
 
-            wolflist.Select(x => x.Otherwolf = wolflist);
+            foreach(Wolf w1 in wolflist)
+            {
+                foreach(Wolf w2 in wolflist)
+                {
+                    w1.Otherwolf.Add(w2);
+                }
+            }
         }
 
         /// <summary>

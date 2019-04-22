@@ -22,7 +22,7 @@ namespace Simple_Werewolf
         public Wolf(string name) : base(name)
         {
             //innerPlayerName = name;
-            OtherOwlf = new List<Wolf>();
+            Otherwolf = new List<Wolf>();
         }
 
         public override bool IsWerewolf
