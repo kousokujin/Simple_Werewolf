@@ -27,11 +27,11 @@ namespace Simple_Werewolf
             }
         }
 
-        public override bool IsWerewolf
+        public override PlayerPosition IsWerewolf
         {
             get
             {
-                return false;
+                return PlayerPosition.Villager;
             }
         }
 
@@ -45,12 +45,13 @@ namespace Simple_Werewolf
 
         public override void NightAction(List<Person> JoinPlayers)
         {
+            DisplayLibrary.ChangeColorClear(GameMaster.OnePerson);
             Console.Write("あなたは");
-            DisplayLibrary.ColorConsole("村人", Forground, Background);
+            DisplayLibrary.ColorConsole(Position.DisplayName(), Forground, Background);
             Console.WriteLine("です。");
             //Console.WriteLine("10秒間待機してください。");
 
-            wait(10);
+            CommonLibrarys.wait(10);
         }
     }
 }

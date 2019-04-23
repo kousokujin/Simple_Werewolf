@@ -29,11 +29,11 @@ namespace Simple_Werewolf
             }
         }
 
-        public override bool IsWerewolf
+        public override PlayerPosition IsWerewolf
         {
             get
             {
-                return false;
+                return PlayerPosition.Villager;
             }
         }
 
@@ -53,12 +53,15 @@ namespace Simple_Werewolf
 
         public override void NightAction(List<Person> JoinPlayers)
         {
+            DisplayLibrary.ChangeColorClear(GameMaster.OnePerson);
             Console.Write("あなたは");
-            DisplayLibrary.ColorConsole("霊能力者", Forground, Background);
+            DisplayLibrary.ColorConsole(Position.DisplayName(), Forground, Background);
             Console.WriteLine("です。");
             //Console.WriteLine("10秒間待機してください。");
             Console.Write("先程処刑した{0}さんは", Executioned.PlayerName);
+            DisplayLibrary.ColorConsole(Executioned.IsWerewolf.DisplayName(), IsWerewolf.ForgroundColor(), IsWerewolf.BackgroundColor());
 
+            /*
             if (Executioned.IsWerewolf)
             {
                 DisplayLibrary.ColorConsole("人狼", Wolf.Forground, Wolf.Background);
@@ -67,9 +70,9 @@ namespace Simple_Werewolf
             {
                 DisplayLibrary.ColorConsole("村人", Villager.Forground,  Villager.Background);
             }
+            */
             Console.WriteLine("です。\n");
-
-            Person.wait(10);
+            CommonLibrarys.wait(10);
         }
     }
 }

@@ -17,7 +17,7 @@ namespace Simple_Werewolf
         /// <summary>
         /// 他の人狼
         /// </summary>
-        public List<Wolf> Otherwolf;
+        public static List<Wolf> Otherwolf;
 
         public Wolf(string name) : base(name)
         {
@@ -25,11 +25,11 @@ namespace Simple_Werewolf
             Otherwolf = new List<Wolf>();
         }
 
-        public override bool IsWerewolf
+        public override PlayerPosition IsWerewolf
         {
             get
             {
-                return true;
+                return PlayerPosition.Werewolf;
             }
         }
 
@@ -51,8 +51,9 @@ namespace Simple_Werewolf
 
         override public void NightAction(List<Person> people)
         {
+            DisplayLibrary.ChangeColorClear(GameMaster.OnePerson);
             Console.Write("あなたは");
-            DisplayLibrary.ColorConsole("人狼", Wolf.Forground, Wolf.Background);
+            DisplayLibrary.ColorConsole(Position.DisplayName(), Wolf.Forground, Wolf.Background);
             Console.WriteLine("です。");
             Console.Write("他の人狼は");
             

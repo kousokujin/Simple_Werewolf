@@ -12,6 +12,20 @@ namespace Simple_Werewolf
         private List<string> MemberName;
         private int[] CastCount;
 
+        /// <summary>
+        /// 1人だけが操作するときの文字色
+        /// </summary>
+        public static ConsoleColor OnePerson = ConsoleColor.White;
+
+        /// <summary>
+        /// 全員で操作するときの文字色
+        /// </summary>
+        public static ConsoleColor AllPerson = ConsoleColor.Cyan;
+
+        /// <summary>
+        /// 人が変わるときの文字色
+        /// </summary>
+        public static ConsoleColor ChangePerson = ConsoleColor.Green;
 
         public GameMaster()
         {
@@ -52,7 +66,14 @@ namespace Simple_Werewolf
             //MemberCount cast = new MemberCount();
             bool CastCheck = false;
 
-            string[] castlist = new string[] { "村人", "人狼", "占い師", "霊能力者", "狩人", "狂人" };
+            PlayerPosition[] castlist = new PlayerPosition[] {
+                PlayerPosition.Villager,
+                PlayerPosition.Werewolf, 
+                PlayerPosition.Prophet,
+                PlayerPosition.Psychic,
+                PlayerPosition.Guardman,
+                PlayerPosition.Madman
+            };
 
             while (!CastCheck)
             {
@@ -67,7 +88,7 @@ namespace Simple_Werewolf
 
                     if (remaining > 0)
                     {
-                        Console.WriteLine("{0}の人数を入力してください。(残り人数:{1}人)", s.v, remaining);
+                        Console.WriteLine("{0}の人数を入力してください。(残り人数:{1}人)", s.v.DisplayName(), remaining);
                     }
                     else
                     {
@@ -125,6 +146,7 @@ namespace Simple_Werewolf
             Console.WriteLine();
 
             //色を表示
+            /*
             List<ConsoleColor> ForgroundList = new List<ConsoleColor>() {
                 Villager.Forground,
                 Wolf.Forground,
@@ -142,12 +164,13 @@ namespace Simple_Werewolf
                 Guardman.Background,
                 Madman.Background,
             };
+            */
 
             foreach (var s in castlist.Select((v, i) => new { v, i }))
             {
-                DisplayLibrary.ColorConsole("{0}", ForgroundList[s.i], BackgroundList[s.i], s.v);
+                DisplayLibrary.ColorConsole("{0}", s.v.ForgroundColor(), s.v.BackgroundColor(), s.v.DisplayName());
 
-                int space = 5 - s.v.Length; //文字スペース
+                int space = 5 - s.v.DisplayName().Length; //文字スペース
                 Console.Write(new string(' ', space*2));
 
                 Console.WriteLine("{0,5}人", CastCount[s.i]);
@@ -183,7 +206,7 @@ namespace Simple_Werewolf
             //カードをシャッフル
             Random r = new Random();
             card = card.OrderBy(a => r.Next(card.Count)).ToList();
-            List<Wolf> wolflist = new List<Wolf>();
+            //List<Wolf> wolflist = new List<Wolf>();
 
             foreach(var member in MemberName.Select((name,n) =>new {name,n}))
             {
@@ -195,7 +218,7 @@ namespace Simple_Werewolf
                         break;
                     case 1:
                         temp = new Wolf(member.name);
-                        wolflist.Add(temp as Wolf);
+                        Wolf.Otherwolf.Add(temp as Wolf);
                         break;
                     case 2:
                         temp = new Prophet(member.name);
@@ -216,6 +239,7 @@ namespace Simple_Werewolf
                 Players.Add(temp);
             }
 
+            /*
             foreach(Wolf w1 in wolflist)
             {
                 foreach(Wolf w2 in wolflist)
@@ -223,6 +247,7 @@ namespace Simple_Werewolf
                     w1.Otherwolf.Add(w2);
                 }
             }
+            */
         }
 
         /// <summary>

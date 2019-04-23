@@ -80,6 +80,12 @@ namespace Simple_Werewolf
             return point;
         }
 
+        /// <summary>
+        /// はいかいいえを問う
+        /// </summary>
+        /// <param name="shift">左のマージン</param>
+        /// <param name="message">メッセージ</param>
+        /// <returns>はいを選択したらtrue</returns>
         public static bool YesOrNo(int shift=0,string message = "")
         {
             if(message != "")
@@ -120,6 +126,16 @@ namespace Simple_Werewolf
         {
             DisplayLibrary.ColorConsole(str, Foreground, Background, args);
             Console.WriteLine();
+        }
+
+        /// <summary>
+        /// 文字色を指定して画面クリア
+        /// </summary>
+        /// <param name="TextColor">新しく設定する文字色</param>
+        public static void ChangeColorClear(ConsoleColor TextColor = ConsoleColor.White)
+        {
+            Console.Clear();
+            Console.ForegroundColor = TextColor;
         }
     }
 }

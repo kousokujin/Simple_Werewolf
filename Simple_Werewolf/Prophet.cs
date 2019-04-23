@@ -19,11 +19,11 @@ namespace Simple_Werewolf
             //innerPlayerName = name;
         }
 
-        public override bool IsWerewolf
+        public override PlayerPosition IsWerewolf
         {
             get
             {
-                return false;
+                return PlayerPosition.Villager;
             }
         }
 
@@ -45,22 +45,28 @@ namespace Simple_Werewolf
 
         override public void NightAction(List<Person> people)
         {
+            DisplayLibrary.ChangeColorClear(GameMaster.OnePerson);
             Console.Write("あなたは");
-            DisplayLibrary.ColorConsole("占い師", Forground, Background);
+            DisplayLibrary.ColorConsole(Position.DisplayName(), Forground, Background);
             Console.WriteLine("です。");
 
             Person target = ListUpMember(people, "今日占う人を選んでください。");
-            bool isWolf = target.IsWerewolf;
+            PlayerPosition isWolf = target.IsWerewolf;
 
             Console.Write("{0}さんは",target.PlayerName);
-            if (isWolf)
+            DisplayLibrary.ColorConsole(isWolf.DisplayName(), isWolf.ForgroundColor(), isWolf.BackgroundColor());
+
+            /*
+            if (isWolf == PlayerPosition.Werewolf)
             {
-                DisplayLibrary.ColorConsole("人狼", Wolf.Forground, Wolf.Background);
+                DisplayLibrary.ColorConsole(PlayerPosition.Werewolf.DisplayName(), Wolf.Forground, Wolf.Background);
             }
             else
             {
-                DisplayLibrary.ColorConsole("村人", Villager.Forground, Villager.Background);
+                DisplayLibrary.ColorConsole(PlayerPosition.Villager.DisplayName(), Villager.Forground, Villager.Background);
             }
+            */
+
             Console.WriteLine("です。");
 
             Console.ReadKey();

@@ -19,11 +19,11 @@ namespace Simple_Werewolf
             //innerPlayerName = name;
         }
 
-        public override bool IsWerewolf
+        public override PlayerPosition IsWerewolf
         {
             get
             {
-                return false;
+                return PlayerPosition.Villager;
             }
         }
 
@@ -45,8 +45,9 @@ namespace Simple_Werewolf
 
         override public void NightAction(List<Person> people)
         {
+            DisplayLibrary.ChangeColorClear(GameMaster.OnePerson);
             Console.Write("あなたは");
-            DisplayLibrary.ColorConsole("狩人", Forground, Background);
+            DisplayLibrary.ColorConsole(Position.DisplayName(), Forground, Background);
             Console.WriteLine("です。");
 
             Person target = ListUpMember(people, "今日の守る人を選んでください。");
