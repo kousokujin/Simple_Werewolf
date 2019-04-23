@@ -45,10 +45,8 @@ namespace Simple_Werewolf
 
         override public void NightAction(List<Person> people)
         {
-            DisplayLibrary.ChangeColorClear(GameMaster.OnePerson);
-            Console.Write("あなたは");
-            DisplayLibrary.ColorConsole(Position.DisplayName(), Forground, Background);
-            Console.WriteLine("です。");
+            DisplayLibrary.ChangeColorClear(CommonLibrary.OnePerson);
+            DisplayThisCast();
 
             Person target = ListUpMember(people, "今日の守る人を選んでください。");
             target.isProtect = true;

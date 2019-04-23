@@ -45,27 +45,15 @@ namespace Simple_Werewolf
 
         override public void NightAction(List<Person> people)
         {
-            DisplayLibrary.ChangeColorClear(GameMaster.OnePerson);
-            Console.Write("あなたは");
-            DisplayLibrary.ColorConsole(Position.DisplayName(), Forground, Background);
-            Console.WriteLine("です。");
+            DisplayLibrary.ChangeColorClear(CommonLibrary.OnePerson);
+            DisplayThisCast();
 
             Person target = ListUpMember(people, "今日占う人を選んでください。");
             PlayerPosition isWolf = target.IsWerewolf;
 
             Console.Write("{0}さんは",target.PlayerName);
-            DisplayLibrary.ColorConsole(isWolf.DisplayName(), isWolf.ForgroundColor(), isWolf.BackgroundColor());
+            CommonLibrary.WriteCastColor(isWolf);
 
-            /*
-            if (isWolf == PlayerPosition.Werewolf)
-            {
-                DisplayLibrary.ColorConsole(PlayerPosition.Werewolf.DisplayName(), Wolf.Forground, Wolf.Background);
-            }
-            else
-            {
-                DisplayLibrary.ColorConsole(PlayerPosition.Villager.DisplayName(), Villager.Forground, Villager.Background);
-            }
-            */
 
             Console.WriteLine("です。");
 

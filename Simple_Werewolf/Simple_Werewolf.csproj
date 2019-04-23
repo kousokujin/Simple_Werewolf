@@ -44,7 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CastEnum.cs" />
-    <Compile Include="CommonLibrarys.cs" />
+    <Compile Include="CommonLibrary.cs" />
     <Compile Include="DisplayLibrary.cs" />
     <Compile Include="GameMaster.cs" />
     <Compile Include="Guardman.cs" />

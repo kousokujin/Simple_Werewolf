@@ -51,10 +51,8 @@ namespace Simple_Werewolf
 
         override public void NightAction(List<Person> people)
         {
-            DisplayLibrary.ChangeColorClear(GameMaster.OnePerson);
-            Console.Write("あなたは");
-            DisplayLibrary.ColorConsole(Position.DisplayName(), Wolf.Forground, Wolf.Background);
-            Console.WriteLine("です。");
+            DisplayLibrary.ChangeColorClear(CommonLibrary.OnePerson);
+            DisplayThisCast();
             Console.Write("他の人狼は");
             
             foreach(Wolf w in Otherwolf.Where(x=>(x != this)))

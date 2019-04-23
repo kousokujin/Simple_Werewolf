@@ -37,13 +37,11 @@ namespace Simple_Werewolf
 
         public override void NightAction(List<Person> JoinPlayers)
         {
-            DisplayLibrary.ChangeColorClear(GameMaster.OnePerson);
-            Console.Write("あなたは");
-            DisplayLibrary.ColorConsole(Position.DisplayName(), ConsoleColor.Yellow, ConsoleColor.Black);
-            Console.WriteLine("です。");
+            DisplayLibrary.ChangeColorClear(CommonLibrary.OnePerson);
+            DisplayThisCast();
             //Console.WriteLine("10秒間待機してください。");
 
-            CommonLibrarys.wait(10);
+            CommonLibrary.wait(10);
         }
     }
 }

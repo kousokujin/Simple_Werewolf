@@ -19,6 +19,7 @@ namespace Simple_Werewolf
         public Paychic(string name) : base(name)
         {
             //innerPlayerName = name;
+            Executioned = null;
         }
 
         public override PlayerPosition Position
@@ -53,26 +54,19 @@ namespace Simple_Werewolf
 
         public override void NightAction(List<Person> JoinPlayers)
         {
-            DisplayLibrary.ChangeColorClear(GameMaster.OnePerson);
-            Console.Write("あなたは");
-            DisplayLibrary.ColorConsole(Position.DisplayName(), Forground, Background);
-            Console.WriteLine("です。");
-            //Console.WriteLine("10秒間待機してください。");
-            Console.Write("先程処刑した{0}さんは", Executioned.PlayerName);
-            DisplayLibrary.ColorConsole(Executioned.IsWerewolf.DisplayName(), IsWerewolf.ForgroundColor(), IsWerewolf.BackgroundColor());
+            DisplayLibrary.ChangeColorClear(CommonLibrary.OnePerson);
+            DisplayThisCast();
 
-            /*
-            if (Executioned.IsWerewolf)
+            if (Executioned != null)
             {
-                DisplayLibrary.ColorConsole("人狼", Wolf.Forground, Wolf.Background);
+                //Console.WriteLine("10秒間待機してください。");
+                Console.Write("先程処刑した{0}さんは", Executioned.PlayerName);
+                CommonLibrary.WriteCastColor(Executioned.IsWerewolf);
+                //DisplayLibrary.ColorConsole(Executioned.IsWerewolf.DisplayName(), IsWerewolf.ForgroundColor(), IsWerewolf.BackgroundColor());
+
+                Console.WriteLine("です。\n");
             }
-            else
-            {
-                DisplayLibrary.ColorConsole("村人", Villager.Forground,  Villager.Background);
-            }
-            */
-            Console.WriteLine("です。\n");
-            CommonLibrarys.wait(10);
+            CommonLibrary.wait(10);
         }
     }
 }

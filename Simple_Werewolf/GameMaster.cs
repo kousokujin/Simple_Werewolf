@@ -12,6 +12,7 @@ namespace Simple_Werewolf
         private List<string> MemberName;
         private int[] CastCount;
 
+        /*
         /// <summary>
         /// 1人だけが操作するときの文字色
         /// </summary>
@@ -26,6 +27,7 @@ namespace Simple_Werewolf
         /// 人が変わるときの文字色
         /// </summary>
         public static ConsoleColor ChangePerson = ConsoleColor.Green;
+        */
 
         public GameMaster()
         {
@@ -145,30 +147,10 @@ namespace Simple_Werewolf
 
             Console.WriteLine();
 
-            //色を表示
-            /*
-            List<ConsoleColor> ForgroundList = new List<ConsoleColor>() {
-                Villager.Forground,
-                Wolf.Forground,
-                Prophet.Forground,
-                Paychic.Forground,
-                Guardman.Forground,
-                Madman.Forground,
-            };
-
-            List<ConsoleColor> BackgroundList = new List<ConsoleColor>() {
-                Villager.Background,
-                Wolf.Background,
-                Prophet.Background,
-                Paychic.Background,
-                Guardman.Background,
-                Madman.Background,
-            };
-            */
-
             foreach (var s in castlist.Select((v, i) => new { v, i }))
             {
-                DisplayLibrary.ColorConsole("{0}", s.v.ForgroundColor(), s.v.BackgroundColor(), s.v.DisplayName());
+                //DisplayLibrary.ColorConsole("{0}", s.v.ForgroundColor(), s.v.BackgroundColor(), s.v.DisplayName());
+                CommonLibrary.WriteCastColor(s.v);
 
                 int space = 5 - s.v.DisplayName().Length; //文字スペース
                 Console.Write(new string(' ', space*2));
@@ -239,15 +221,6 @@ namespace Simple_Werewolf
                 Players.Add(temp);
             }
 
-            /*
-            foreach(Wolf w1 in wolflist)
-            {
-                foreach(Wolf w2 in wolflist)
-                {
-                    w1.Otherwolf.Add(w2);
-                }
-            }
-            */
         }
 
         /// <summary>
@@ -274,17 +247,4 @@ namespace Simple_Werewolf
             return Victim;
         }
     }
-
-    /*
-    struct MemberCount
-    {
-        public int VillagerCount;   //村人の人数
-        public int WerewolfCount;   //人狼の人数
-        public int ProphetCount;    //占い師の人数
-        public int PaychicCount;    //霊能力者の人数
-        public int GuardmanCount;   //狩人の人数
-        public int MadmanCount;     //狂人の人数
-
-    }
-    */
 }

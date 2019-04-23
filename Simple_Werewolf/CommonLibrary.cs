@@ -11,8 +11,23 @@ namespace Simple_Werewolf
     /// <summary>
     /// 使い回す関数群
     /// </summary>
-    static class CommonLibrarys
+    static class CommonLibrary
     {
+        /// <summary>
+        /// 1人だけが操作するときの文字色
+        /// </summary>
+        public static ConsoleColor OnePerson = ConsoleColor.White;
+
+        /// <summary>
+        /// 全員で操作するときの文字色
+        /// </summary>
+        public static ConsoleColor AllPerson = ConsoleColor.Cyan;
+
+        /// <summary>
+        /// 人が変わるときの文字色
+        /// </summary>
+        public static ConsoleColor ChangePerson = ConsoleColor.Green;
+
         /// <summary>
         /// 引数で与えられたプレイヤーを選択させる画面を表示する。
         /// /// </summary>
@@ -72,6 +87,15 @@ namespace Simple_Werewolf
                 Console.Write("{0}秒間待機してください。", i);
                 Thread.Sleep(1000);
             }
+        }
+
+        /// <summary>
+        /// 役職をいい感じに表示する(改行なし)
+        /// </summary>
+        /// <param name="cast">役職</param>
+        public static void WriteCastColor(PlayerPosition cast)
+        {
+            DisplayLibrary.ColorConsole(cast.DisplayName(), cast.ForgroundColor(), cast.BackgroundColor());
         }
     }
 }
