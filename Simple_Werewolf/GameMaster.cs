@@ -10,7 +10,8 @@ namespace Simple_Werewolf
     {
         private List<Person> Players;
         private List<string> MemberName;
-        private int[] CastCount;
+        //private int[] CastCount;
+        private Dictionary<PlayerPosition, int> CastCount;
 
         /*
         /// <summary>
@@ -33,7 +34,8 @@ namespace Simple_Werewolf
         {
             Players = new List<Person>();
             MemberName = new List<string>();
-            CastCount = new int[6];
+            //CastCount = new int[6];
+            CastCount = new Dictionary<PlayerPosition, int>();
         }
         
         /// <summary>
@@ -41,6 +43,8 @@ namespace Simple_Werewolf
         /// </summary>
         public void JoinMember()
         {
+            DisplayLibrary.ChangeColorClear(CommonLibrary.AllPerson);
+
             Console.WriteLine("参加者の名前を入力してください。");
             bool loop = true;
             do
@@ -64,10 +68,13 @@ namespace Simple_Werewolf
         /// </summary>
         public void DecisionCast()
         {
+            DisplayLibrary.ChangeColorClear(CommonLibrary.AllPerson);
+
             int MemberCount = MemberName.Count();
             //MemberCount cast = new MemberCount();
             bool CastCheck = false;
 
+            /*
             PlayerPosition[] castlist = new PlayerPosition[] {
                 PlayerPosition.Villager,
                 PlayerPosition.Werewolf, 
@@ -76,6 +83,7 @@ namespace Simple_Werewolf
                 PlayerPosition.Guardman,
                 PlayerPosition.Madman
             };
+            */
 
             while (!CastCheck)
             {
@@ -83,7 +91,7 @@ namespace Simple_Werewolf
 
                 Console.WriteLine();
 
-                foreach (var s in castlist.Select((v, i) => new { v, i }))
+                foreach (var s in CastEnum.AllCastList().Select((v, i) => new { v, i }))
                 {
                     bool check = false;
                     int n = 0;
@@ -122,13 +130,16 @@ namespace Simple_Werewolf
                         }
 
                     }
-                    CastCount[s.i] = n;
+                    //CastCount[s.i] = n;
+                    CastCount[s.v] = n;
 
                 }
 
-                int WolfCount = CastCount[1] + CastCount[5];
-                int VillagerCount = CastCount.Sum() - WolfCount;
-                if(CastCount.Sum() == MemberName.Count)
+                int sum = CastCount.Select(x => x.Value).Sum();
+                int WolfCount = CastCount[PlayerPosition.Werewolf] + CastCount[PlayerPosition.Madman];
+                //int VillagerCount = CastCount[PlayerPosition.Villager] + CastCount[PlayerPosition.Psychic] + CastCount[PlayerPosition.Prophet] + CastCount[PlayerPosition.Guardman];
+                int VillagerCount = sum - WolfCount;
+                if (sum == MemberName.Count)
                 {
                     if (VillagerCount > WolfCount)
                     {
@@ -147,7 +158,7 @@ namespace Simple_Werewolf
 
             Console.WriteLine();
 
-            foreach (var s in castlist.Select((v, i) => new { v, i }))
+            foreach (var s in CastEnum.AllCastList().Select((v, i) => new { v, i }))
             {
                 //DisplayLibrary.ColorConsole("{0}", s.v.ForgroundColor(), s.v.BackgroundColor(), s.v.DisplayName());
                 CommonLibrary.WriteCastColor(s.v);
@@ -155,7 +166,7 @@ namespace Simple_Werewolf
                 int space = 5 - s.v.DisplayName().Length; //文字スペース
                 Console.Write(new string(' ', space*2));
 
-                Console.WriteLine("{0,5}人", CastCount[s.i]);
+                Console.WriteLine("{0,5}人", CastCount[s.v]);
             }
 
             bool result = DisplayLibrary.YesOrNo(0, "\nこれでいいですか？");
@@ -174,13 +185,14 @@ namespace Simple_Werewolf
             Players.Clear();
             
             //カードに見立てて配役
-            List<int> card = new List<int>();
+            List<PlayerPosition> card = new List<PlayerPosition>();
             int CardNumber = 0;
-            foreach(var c in CastCount)
+            foreach(var c in CastEnum.AllCastList())
             {
-                for(int i = 0; i < c; i++)
+                int n = CastCount[c];
+                for(int i = 0; i < n; i++)
                 {
-                    card.Add(CardNumber);
+                    card.Add(c);
                 }
                 CardNumber++;
             }
@@ -195,23 +207,22 @@ namespace Simple_Werewolf
                 Person temp =null;
                 switch (card[member.n])
                 {
-                    case 0:
+                    case PlayerPosition.Villager:
                         temp = new Villager(member.name);
                         break;
-                    case 1:
+                    case PlayerPosition.Werewolf:
                         temp = new Wolf(member.name);
-                        Wolf.Otherwolf.Add(temp as Wolf);
                         break;
-                    case 2:
+                    case PlayerPosition.Prophet:
                         temp = new Prophet(member.name);
                         break;
-                    case 3:
+                    case PlayerPosition.Psychic:
                         temp = new Paychic(member.name);
                         break;
-                    case 4:
+                    case PlayerPosition.Guardman:
                         temp = new Guardman(member.name);
                         break;
-                    case 5:
+                    case PlayerPosition.Madman:
                         temp = new Madman(member.name);
                         break;
                     default:
@@ -219,6 +230,14 @@ namespace Simple_Werewolf
                 }
 
                 Players.Add(temp);
+            }
+
+            //人狼の処理
+            foreach(Wolf wx in Players.Where(x => (x.Position == PlayerPosition.Werewolf)).ToList()){
+                foreach (Wolf wy in Players.Where(x => (x.Position == PlayerPosition.Werewolf)).ToList())
+                {
+                    wx.Otherwolf.Add(wy);
+                }
             }
 
         }

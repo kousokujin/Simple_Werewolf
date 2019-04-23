@@ -17,7 +17,7 @@ namespace Simple_Werewolf
         /// <summary>
         /// 他の人狼
         /// </summary>
-        public static List<Wolf> Otherwolf;
+        public List<Wolf> Otherwolf;
 
         public Wolf(string name) : base(name)
         {

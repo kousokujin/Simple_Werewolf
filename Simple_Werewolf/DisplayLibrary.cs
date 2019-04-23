@@ -16,20 +16,26 @@ namespace Simple_Werewolf
         /// <returns>選ばれた選択肢</returns>
         public static int SelectDisplay(List<string> choices,int shift = 0)
         {
+            //Console.WriteLine(Console.ForegroundColor.ToString());
+            ConsoleColor NornalFoground = Console.ForegroundColor;
             Console.CursorVisible = false;
             int point = 0;
             //int NowPosition = Console.CursorTop;
             const ConsoleColor PointColor = ConsoleColor.DarkBlue;
+            const ConsoleColor PointForground = ConsoleColor.White;
+
             foreach(var item in choices.Select((x,i)=> new { x, i }))
             {
                 if (point == item.i)
                 {
+                    Console.ForegroundColor = PointForground;
                     Console.BackgroundColor = PointColor;
 
                 }
                 else
                 {
                     Console.BackgroundColor = ConsoleColor.Black;
+                    Console.ForegroundColor = NornalFoground;
                 }
                 Console.SetCursorPosition(shift, Console.CursorTop);
                 Console.WriteLine(item.x);
@@ -50,9 +56,11 @@ namespace Simple_Werewolf
                             Console.Write(choices[point]);
                             Console.SetCursorPosition(shift, Console.CursorTop - 1);
                             Console.BackgroundColor = PointColor;
+                            Console.ForegroundColor = PointForground;
                             point--;
                             Console.Write(choices[point]);
                             Console.BackgroundColor = ConsoleColor.Black;
+                            Console.ForegroundColor = NornalFoground;
                         }
                         break;
                     case ConsoleKey.DownArrow:
@@ -62,9 +70,11 @@ namespace Simple_Werewolf
                             Console.Write(choices[point]);
                             Console.SetCursorPosition(shift, Console.CursorTop + 1);
                             Console.BackgroundColor = PointColor;
+                            Console.ForegroundColor = PointForground;
                             point++;
                             Console.Write(choices[point]);
                             Console.BackgroundColor = ConsoleColor.Black;
+                            Console.ForegroundColor = NornalFoground;
                         }
                         break;
                     case ConsoleKey.Enter:
@@ -108,11 +118,14 @@ namespace Simple_Werewolf
         /// <param name="args">引数</param>
         public static void ColorConsole(string str, ConsoleColor Foreground,ConsoleColor Background,params string[] args)
         {
+            ConsoleColor defaultForground = Console.ForegroundColor;
+            ConsoleColor defaultBackground = Console.BackgroundColor;
+
             Console.BackgroundColor = Background;
             Console.ForegroundColor = Foreground;
             Console.Write(str, args);
-            Console.BackgroundColor = ConsoleColor.Black;
-            Console.ForegroundColor = ConsoleColor.White;
+            Console.BackgroundColor = defaultBackground;
+            Console.ForegroundColor = defaultForground;
         }
         
         /// <summary>
@@ -136,6 +149,7 @@ namespace Simple_Werewolf
         {
             Console.Clear();
             Console.ForegroundColor = TextColor;
+            //Console.WriteLine(Console.ForegroundColor.ToString());
         }
     }
 }

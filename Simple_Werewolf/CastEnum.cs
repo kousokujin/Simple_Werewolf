@@ -55,6 +55,22 @@ namespace Simple_Werewolf
             };
             return cls[(int)pos];
         }
+
+        /// <summary>
+        /// すべての役職のenumをリストに入れたやつを返す
+        /// </summary>
+        /// <returns></returns>
+        public static List<PlayerPosition> AllCastList()
+        {
+              return  new List<PlayerPosition> {
+                PlayerPosition.Villager,
+                PlayerPosition.Werewolf,
+                PlayerPosition.Prophet,
+                PlayerPosition.Psychic,
+                PlayerPosition.Guardman,
+                PlayerPosition.Madman
+            };
+        }
     }
 
     /// <summary>
