@@ -51,7 +51,8 @@ namespace Simple_Werewolf
 
         override public void NightAction(List<Person> people)
         {
-            DisplayLibrary.ChangeColorClear(CommonLibrary.OnePerson);
+            //DisplayLibrary.ChangeColorClear(CommonLibrary.OnePerson);
+            CommonLibrary.ChangeDisplayColor(1);
             DisplayThisCast();
             Console.Write("他の人狼は");
             
@@ -63,6 +64,10 @@ namespace Simple_Werewolf
 
             Person target = ListUpMember(people.Where(x=>x.Position != PlayerPosition.Werewolf).ToList(),"今日のターゲットを選んでください。");
             target.isTarget = true;
+
+            Console.WriteLine("{0}さんを襲います。", target.PlayerName);
+            Console.WriteLine("Enterキーを押してください。");
+            Console.ReadKey();
         }
     }
 }

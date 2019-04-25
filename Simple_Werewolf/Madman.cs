@@ -13,7 +13,7 @@ namespace Simple_Werewolf
         /// コンソールに表示する色
         /// </summary>
         public new static ConsoleColor Forground = ConsoleColor.White;
-        public new static ConsoleColor Background = ConsoleColor.DarkMagenta;
+        public new static ConsoleColor Background = ConsoleColor.Magenta;
 
         public Madman(string name) : base(name)
         {
@@ -37,7 +37,7 @@ namespace Simple_Werewolf
 
         public override void NightAction(List<Person> JoinPlayers)
         {
-            DisplayLibrary.ChangeColorClear(CommonLibrary.OnePerson);
+            CommonLibrary.ChangeDisplayColor(1);
             DisplayThisCast();
             //Console.WriteLine("10秒間待機してください。");
 

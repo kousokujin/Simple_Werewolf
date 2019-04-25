@@ -13,23 +13,6 @@ namespace Simple_Werewolf
         //private int[] CastCount;
         private Dictionary<PlayerPosition, int> CastCount;
 
-        /*
-        /// <summary>
-        /// 1人だけが操作するときの文字色
-        /// </summary>
-        public static ConsoleColor OnePerson = ConsoleColor.White;
-
-        /// <summary>
-        /// 全員で操作するときの文字色
-        /// </summary>
-        public static ConsoleColor AllPerson = ConsoleColor.Cyan;
-
-        /// <summary>
-        /// 人が変わるときの文字色
-        /// </summary>
-        public static ConsoleColor ChangePerson = ConsoleColor.Green;
-        */
-
         public GameMaster()
         {
             Players = new List<Person>();
@@ -37,13 +20,53 @@ namespace Simple_Werewolf
             //CastCount = new int[6];
             CastCount = new Dictionary<PlayerPosition, int>();
         }
+
+        
+        public void MainGame()
+        {
+            bool isloop = true;
+            JoinMember();
+            DecisionCast();
+
+            while (isloop)
+            {
+                OneGame();
+                Console.WriteLine();
+                isloop = DisplayLibrary.YesOrNo(0,"もう一度やりますか？");
+            }
+        }
+        
+        //ゲーム1回
+        public void OneGame()
+        {
+            bool isGameRun = true;
+            bool firstloop = true;
+            //参加者の名前を入力
+            setCast();
+
+            while (isGameRun)
+            {
+                if (!firstloop) {
+                    execution();
+                }
+                else
+                {
+                    firstloop = false;
+                }
+                NightAction();
+                NightProcess();
+                isGameRun = !ContinueDisplay();
+                
+            }
+        }
         
         /// <summary>
         /// 参加者の名前を入力させる
         /// </summary>
         public void JoinMember()
         {
-            DisplayLibrary.ChangeColorClear(CommonLibrary.AllPerson);
+            //DisplayLibrary.ChangeColorClear(CommonLibrary.AllPerson);
+            CommonLibrary.ChangeDisplayColor(0);
 
             Console.WriteLine("参加者の名前を入力してください。");
             bool loop = true;
@@ -68,7 +91,8 @@ namespace Simple_Werewolf
         /// </summary>
         public void DecisionCast()
         {
-            DisplayLibrary.ChangeColorClear(CommonLibrary.AllPerson);
+            //DisplayLibrary.ChangeColorClear(CommonLibrary.AllPerson);
+            CommonLibrary.ChangeDisplayColor(0);
 
             int MemberCount = MemberName.Count();
             //MemberCount cast = new MemberCount();
@@ -245,8 +269,7 @@ namespace Simple_Werewolf
         /// <summary>
         /// 夜の行動後の処理
         /// </summary>
-        /// <returns>犠牲者</returns>
-        public List<Person> NightProcess()
+        public void NightProcess()
         {
             List<Person> Victim = new List<Person>();
 
@@ -261,9 +284,146 @@ namespace Simple_Werewolf
                         Victim.Add(p);
                     }
                 }
+
+                //フラグを戻す
+                p.isProtect = false;
+                p.isTarget = false;
             }
 
-            return Victim;
+            CommonLibrary.ChangeDisplayColor(0);
+
+            if (Victim.Count == 0)
+            {
+                Console.WriteLine("今夜の犠牲者はいませんでした。");
+            }
+            else
+            {
+                Console.WriteLine("今夜の犠牲者は");
+                foreach(Person p in Victim)
+                {
+                    Console.WriteLine("{0}さん", p.PlayerName);
+                }
+                Console.WriteLine("の{0}人でした。",Victim.Count());
+            }
+            Console.WriteLine("Enterキーを押してください。");
+            Console.ReadKey();
+            //return Victim;
         }
+
+        /// <summary>
+        /// 処刑を実行する
+        /// </summary>
+        public void execution()
+        {
+            CommonLibrary.ChangeDisplayColor(0);
+            Person p = CommonLibrary.StaticListUpMember(Players.Where(x => (x.isDead == false)).ToList(),"今夜処刑する人を選んでください。");
+            p.isDead = true;
+
+            //霊能力者に通知
+            foreach(Paychic psy in Players.Where(x=>x.Position == PlayerPosition.Psychic).ToList())
+            {
+                psy.Executioned = p;
+            }
+
+            Console.WriteLine("{0}さんが処刑されました。Enterキーを押してください。",p.PlayerName);
+            Console.ReadKey();
+        }
+
+        /// <summary>
+        /// 夜の行動
+        /// </summary>
+        public void NightAction()
+        {
+
+            foreach (var item in Players.Where(x => x.isDead == false).Select((play,count)=>new { play, count }).ToList())
+            {
+                if (item.count == 0)
+                {
+                    CommonLibrary.ChangeDisplay("", item.play.PlayerName,"夜の行動に移ります。");
+
+                }
+                else
+                {
+                    CommonLibrary.ChangeDisplay(Players[item.count - 1].PlayerName, item.play.PlayerName);
+                }
+
+                item.play.NightAction(Players);
+            }
+        }
+
+        /// <summary>
+        /// 勝敗判定
+        /// </summary>
+        /// <returns>村人が勝ちの場合はtrue,人狼が勝ちの場合はfalse、それ以外はnull</returns>
+        private bool? ContinueGame()
+        {
+            int village_side = Players.Where(x => (x.isDead == false) && (x.IsWerewolfPosition == false)).ToList().Count();
+            int wolf_side= Players.Where(x => (x.isDead == false) && (x.IsWerewolfPosition == true)).ToList().Count();
+            int wolf = Players.Where(x => (x.isDead == false) && (x.Position == PlayerPosition.Werewolf)).ToList().Count();
+
+            if(wolf == 0)
+            {
+                return true;
+            }
+            if(village_side <= wolf_side)
+            {
+                return false;
+            }
+
+            return null;
+
+        }
+
+        /// <summary>
+        /// 次の週に入る画面
+        /// </summary>
+        /// <returns>ゲームが終わって次の週に入らない場合はtrue</returns>
+        public bool ContinueDisplay()
+        {
+            bool? isContinue = ContinueGame();
+
+            //勝敗が決まった
+            if(isContinue != null)
+            {
+                CommonLibrary.ChangeDisplayColor(0);
+                bool VillegeVictory = (bool)isContinue;
+
+                //村人の勝ち
+                if (VillegeVictory)
+                {
+                    DisplayLibrary.ColorConsole("村人", Villager.Forground, Villager.Background);
+                }
+                else　//人狼の勝ち
+                {
+                    DisplayLibrary.ColorConsole("人狼", Wolf.Forground, Wolf.Background);
+                }
+                Console.WriteLine("の勝利。\n");
+                Console.WriteLine("役職一覧");
+                DisplayCast();
+
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// 配役表示
+        /// </summary>
+        public void DisplayCast()
+        {
+            int width = Players.Select(x => x.PlayerName).ToList().Max().Length + 5;
+            foreach(Person p in Players)
+            {
+                string displayname = p.PlayerName + new string(' ', width - p.PlayerName.Length);
+                Console.Write(displayname);
+                CommonLibrary.WriteCastColor(p.Position);
+                Console.WriteLine();
+            }
+        }
+
+
     }
 }

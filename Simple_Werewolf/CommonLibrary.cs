@@ -14,19 +14,21 @@ namespace Simple_Werewolf
     static class CommonLibrary
     {
         /// <summary>
-        /// 1人だけが操作するときの文字色
+        /// 1人だけが操作するときの文字色・背景色
         /// </summary>
         public static ConsoleColor OnePerson = ConsoleColor.White;
-
+        public static ConsoleColor BOnePerson = ConsoleColor.Black;
         /// <summary>
         /// 全員で操作するときの文字色
         /// </summary>
-        public static ConsoleColor AllPerson = ConsoleColor.Cyan;
+        public static ConsoleColor AllPerson = ConsoleColor.White;
+        public static ConsoleColor BAllPerson = ConsoleColor.DarkMagenta;
 
         /// <summary>
         /// 人が変わるときの文字色
         /// </summary>
-        public static ConsoleColor ChangePerson = ConsoleColor.Green;
+        public static ConsoleColor ChangePerson = ConsoleColor.White;
+        public static ConsoleColor BChangePerson = ConsoleColor.DarkGreen;
 
         /// <summary>
         /// 引数で与えられたプレイヤーを選択させる画面を表示する。
@@ -50,9 +52,15 @@ namespace Simple_Werewolf
         /// </summary>
         /// <param name="prevPerson">前の人</param>
         /// <param name="nextPerson">次の人</param>
-        public static void ChangeDisplay(string prevPerson, string nextPerson)
+        public static void ChangeDisplay(string prevPerson, string nextPerson,string message="")
         {
-            DisplayLibrary.ChangeColorClear();
+            ChangeDisplayColor(2);
+
+            if(message != "")
+            {
+                Console.WriteLine(message);
+                Console.WriteLine();
+            }
             //日本語があやしい
             if (nextPerson != "")
             {
@@ -87,6 +95,9 @@ namespace Simple_Werewolf
                 Console.Write("{0}秒間待機してください。", i);
                 Thread.Sleep(1000);
             }
+
+            Console.WriteLine("\nEnterキーを押してください。");
+            Console.ReadKey();
         }
 
         /// <summary>
@@ -96,6 +107,27 @@ namespace Simple_Werewolf
         public static void WriteCastColor(PlayerPosition cast)
         {
             DisplayLibrary.ColorConsole(cast.DisplayName(), cast.ForgroundColor(), cast.BackgroundColor());
+        }
+
+        /// <summary>
+        /// 画面の色を変える。
+        /// 0->全員 1->1人 2->操作変更
+        /// </summary>
+        /// <param name="mode"></param>
+        public static void ChangeDisplayColor(byte mode)
+        {
+            switch (mode)
+            {
+                case 0:
+                    DisplayLibrary.ChangeColorClear(AllPerson, BAllPerson);
+                    break;
+                case 1:
+                    DisplayLibrary.ChangeColorClear(OnePerson, BOnePerson);
+                    break;
+                default:
+                    DisplayLibrary.ChangeColorClear(ChangePerson, BChangePerson);
+                    break;
+            }
         }
     }
 }

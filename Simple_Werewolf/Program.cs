@@ -28,7 +28,10 @@ namespace Simple_Werewolf
             Person.ChangeDisplay(persons[5].PlayerName, persons[1].PlayerName);
             */
 
-            debug1();
+            //debug1();
+
+            GameMaster master = new GameMaster();
+            master.MainGame();
             Console.ReadKey();
         }
 
@@ -40,6 +43,7 @@ namespace Simple_Werewolf
             master.JoinMember();
             master.DecisionCast();
             master.setCast();
+            master.DisplayCast();
         }
     }
 }

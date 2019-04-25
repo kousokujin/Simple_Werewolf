@@ -45,11 +45,15 @@ namespace Simple_Werewolf
 
         override public void NightAction(List<Person> people)
         {
-            DisplayLibrary.ChangeColorClear(CommonLibrary.OnePerson);
+            CommonLibrary.ChangeDisplayColor(1);
             DisplayThisCast();
 
             Person target = ListUpMember(people, "今日の守る人を選んでください。");
             target.isProtect = true;
+
+            Console.WriteLine("{0}さんを守ります。", target.PlayerName);
+            Console.WriteLine("Enterキーを押してください。");
+            Console.ReadKey();
         }
     }
 }

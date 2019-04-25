@@ -54,7 +54,7 @@ namespace Simple_Werewolf
 
         public override void NightAction(List<Person> JoinPlayers)
         {
-            DisplayLibrary.ChangeColorClear(CommonLibrary.OnePerson);
+            CommonLibrary.ChangeDisplayColor(1);
             DisplayThisCast();
 
             if (Executioned != null)

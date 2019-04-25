@@ -31,7 +31,7 @@ namespace Simple_Werewolf
         {
             get
             {
-                return PlayerPosition.Madman;
+                return PlayerPosition.Prophet;
             }
         }
 
@@ -45,7 +45,7 @@ namespace Simple_Werewolf
 
         override public void NightAction(List<Person> people)
         {
-            DisplayLibrary.ChangeColorClear(CommonLibrary.OnePerson);
+            CommonLibrary.ChangeDisplayColor(1);
             DisplayThisCast();
 
             Person target = ListUpMember(people, "今日占う人を選んでください。");
@@ -57,6 +57,7 @@ namespace Simple_Werewolf
 
             Console.WriteLine("です。");
 
+            Console.WriteLine("Enterキーを押してください。");
             Console.ReadKey();
         }
     }

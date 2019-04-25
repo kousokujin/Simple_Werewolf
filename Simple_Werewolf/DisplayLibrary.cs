@@ -8,6 +8,16 @@ namespace Simple_Werewolf
 {
     static class DisplayLibrary
     {
+
+        static ConsoleColor DefaultBackground;
+        static ConsoleColor DefaultForground;
+
+        static DisplayLibrary()
+        {
+            DefaultBackground = Console.BackgroundColor;
+            DefaultForground = Console.ForegroundColor;
+        }
+
         /// <summary>
         /// 引数で与えられた文字列の配列を選択させる画面を表示する
         /// </summary>
@@ -17,14 +27,16 @@ namespace Simple_Werewolf
         public static int SelectDisplay(List<string> choices,int shift = 0)
         {
             //Console.WriteLine(Console.ForegroundColor.ToString());
-            ConsoleColor NornalFoground = Console.ForegroundColor;
+
             Console.CursorVisible = false;
             int point = 0;
             //int NowPosition = Console.CursorTop;
             const ConsoleColor PointColor = ConsoleColor.DarkBlue;
             const ConsoleColor PointForground = ConsoleColor.White;
+            ConsoleColor NornalFoground = Console.ForegroundColor;
+            ConsoleColor NormalBackground = Console.BackgroundColor;
 
-            foreach(var item in choices.Select((x,i)=> new { x, i }))
+            foreach (var item in choices.Select((x,i)=> new { x, i }))
             {
                 if (point == item.i)
                 {
@@ -34,7 +46,7 @@ namespace Simple_Werewolf
                 }
                 else
                 {
-                    Console.BackgroundColor = ConsoleColor.Black;
+                    Console.BackgroundColor = NormalBackground;
                     Console.ForegroundColor = NornalFoground;
                 }
                 Console.SetCursorPosition(shift, Console.CursorTop);
@@ -59,7 +71,7 @@ namespace Simple_Werewolf
                             Console.ForegroundColor = PointForground;
                             point--;
                             Console.Write(choices[point]);
-                            Console.BackgroundColor = ConsoleColor.Black;
+                            Console.BackgroundColor = NormalBackground;
                             Console.ForegroundColor = NornalFoground;
                         }
                         break;
@@ -73,7 +85,7 @@ namespace Simple_Werewolf
                             Console.ForegroundColor = PointForground;
                             point++;
                             Console.Write(choices[point]);
-                            Console.BackgroundColor = ConsoleColor.Black;
+                            Console.BackgroundColor = NormalBackground;
                             Console.ForegroundColor = NornalFoground;
                         }
                         break;
@@ -118,14 +130,36 @@ namespace Simple_Werewolf
         /// <param name="args">引数</param>
         public static void ColorConsole(string str, ConsoleColor Foreground,ConsoleColor Background,params string[] args)
         {
-            ConsoleColor defaultForground = Console.ForegroundColor;
-            ConsoleColor defaultBackground = Console.BackgroundColor;
+            ConsoleColor preForground = Console.ForegroundColor;
+            ConsoleColor preBackground = Console.BackgroundColor;
 
-            Console.BackgroundColor = Background;
-            Console.ForegroundColor = Foreground;
+            ConsoleColor Forgreound_def;
+            ConsoleColor Background_def;
+
+            //文字色
+            if (Foreground == DefaultForground)
+            {
+                Forgreound_def = preForground;
+            }
+            else
+            {
+                Forgreound_def = Foreground;
+            }
+
+            if(Background == DefaultBackground)
+            {
+                Background_def = preBackground;
+            }
+            else
+            {
+                Background_def = Background;
+            }
+
+            Console.BackgroundColor = Background_def;
+            Console.ForegroundColor = Forgreound_def;
             Console.Write(str, args);
-            Console.BackgroundColor = defaultBackground;
-            Console.ForegroundColor = defaultForground;
+            Console.BackgroundColor = preBackground;
+            Console.ForegroundColor = preForground;
         }
         
         /// <summary>
@@ -145,10 +179,11 @@ namespace Simple_Werewolf
         /// 文字色を指定して画面クリア
         /// </summary>
         /// <param name="TextColor">新しく設定する文字色</param>
-        public static void ChangeColorClear(ConsoleColor TextColor = ConsoleColor.White)
+        public static void ChangeColorClear(ConsoleColor TextColor = ConsoleColor.White,ConsoleColor Background = ConsoleColor.Black)
         {
-            Console.Clear();
             Console.ForegroundColor = TextColor;
+            Console.BackgroundColor = Background;
+            Console.Clear();
             //Console.WriteLine(Console.ForegroundColor.ToString());
         }
     }
