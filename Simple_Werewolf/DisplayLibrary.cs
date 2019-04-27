@@ -27,16 +27,28 @@ namespace Simple_Werewolf
         public static int SelectDisplay(List<string> choices,int shift = 0)
         {
             //Console.WriteLine(Console.ForegroundColor.ToString());
+            ConsoleColor beforeForground = Console.ForegroundColor;
+            ConsoleColor beforeBackground = Console.BackgroundColor;
+
+
+            int width = choices.Select(x => StringCount(x)).ToList().Max();
+            List<string> FixChoices = new List<string>();
+            foreach (string s in choices)
+            {
+                FixChoices.Add(fixSpace(s, width));
+            }
+
 
             Console.CursorVisible = false;
             int point = 0;
             //int NowPosition = Console.CursorTop;
             const ConsoleColor PointColor = ConsoleColor.DarkBlue;
             const ConsoleColor PointForground = ConsoleColor.White;
-            ConsoleColor NornalFoground = Console.ForegroundColor;
-            ConsoleColor NormalBackground = Console.BackgroundColor;
+            ConsoleColor NornalFoground = beforeForground;
+            //ConsoleColor NormalBackground = Console.BackgroundColor;
+            ConsoleColor NormalBackground = ConsoleColor.DarkGray;
 
-            foreach (var item in choices.Select((x,i)=> new { x, i }))
+            foreach (var item in FixChoices.Select((x,i)=> new { x, i }))
             {
                 if (point == item.i)
                 {
@@ -53,7 +65,7 @@ namespace Simple_Werewolf
                 Console.WriteLine(item.x);
             }
 
-            Console.SetCursorPosition(shift, Console.CursorTop - choices.Count());
+            Console.SetCursorPosition(shift, Console.CursorTop - FixChoices.Count());
 
             bool isSelect = false;
             while (!isSelect)
@@ -65,12 +77,12 @@ namespace Simple_Werewolf
                         if (point > 0)
                         {
                             Console.SetCursorPosition(shift, Console.CursorTop);
-                            Console.Write(choices[point]);
+                            Console.Write(FixChoices[point]);
                             Console.SetCursorPosition(shift, Console.CursorTop - 1);
                             Console.BackgroundColor = PointColor;
                             Console.ForegroundColor = PointForground;
                             point--;
-                            Console.Write(choices[point]);
+                            Console.Write(FixChoices[point]);
                             Console.BackgroundColor = NormalBackground;
                             Console.ForegroundColor = NornalFoground;
                         }
@@ -79,12 +91,12 @@ namespace Simple_Werewolf
                         if (point < choices.Count() - 1)
                         {
                             Console.SetCursorPosition(shift, Console.CursorTop);
-                            Console.Write(choices[point]);
+                            Console.Write(FixChoices[point]);
                             Console.SetCursorPosition(shift, Console.CursorTop + 1);
                             Console.BackgroundColor = PointColor;
                             Console.ForegroundColor = PointForground;
                             point++;
-                            Console.Write(choices[point]);
+                            Console.Write(FixChoices[point]);
                             Console.BackgroundColor = NormalBackground;
                             Console.ForegroundColor = NornalFoground;
                         }
@@ -99,7 +111,23 @@ namespace Simple_Werewolf
 
             Console.CursorVisible = true;
             Console.SetCursorPosition(0, Console.CursorTop + (choices.Count() - point));
+            Console.ForegroundColor = beforeForground;
+            Console.BackgroundColor = beforeBackground;
             return point;
+
+            string fixSpace(string str,int str_width)
+            {
+                int strLength = StringCount(str);
+                if(strLength < str_width)
+                {
+                    int d = str_width - strLength;
+                    return str + new string(' ', d);
+                }
+                else
+                {
+                    return str;
+                }
+            }
         }
 
         /// <summary>
@@ -185,6 +213,16 @@ namespace Simple_Werewolf
             Console.BackgroundColor = Background;
             Console.Clear();
             //Console.WriteLine(Console.ForegroundColor.ToString());
+        }
+
+        /// <summary>
+        /// 文字列を表示するのに使う桁数を表示
+        /// </summary>
+        /// <param name="str">調べたい文字数</param>
+        public static int StringCount(string str)
+        {
+            Encoding sjis = Encoding.GetEncoding("Shift_JIS");
+            return sjis.GetByteCount(str);
         }
     }
 }

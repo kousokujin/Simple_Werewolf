@@ -48,12 +48,13 @@ namespace Simple_Werewolf
             CommonLibrary.ChangeDisplayColor(1);
             DisplayThisCast();
 
+            DateTime start = DateTime.Now;
             Person target = ListUpMember(people, "今日の守る人を選んでください。");
             target.isProtect = true;
+            DateTime end = DateTime.Now;
 
             Console.WriteLine("{0}さんを守ります。", target.PlayerName);
-            Console.WriteLine("Enterキーを押してください。");
-            Console.ReadKey();
+            CommonLibrary.TimeSpanWait(start, end);
         }
     }
 }

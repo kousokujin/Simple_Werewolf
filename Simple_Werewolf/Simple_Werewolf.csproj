@@ -54,6 +54,8 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Prophet.cs" />
+    <Compile Include="title.cs" />
+    <Compile Include="Tutorial.cs" />
     <Compile Include="Villager.cs" />
     <Compile Include="Wolf.cs" />
   </ItemGroup>

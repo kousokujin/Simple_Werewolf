@@ -17,12 +17,12 @@ namespace Simple_Werewolf
         /// 1人だけが操作するときの文字色・背景色
         /// </summary>
         public static ConsoleColor OnePerson = ConsoleColor.White;
-        public static ConsoleColor BOnePerson = ConsoleColor.Black;
+        public static ConsoleColor BOnePerson = ConsoleColor.DarkMagenta;
         /// <summary>
         /// 全員で操作するときの文字色
         /// </summary>
         public static ConsoleColor AllPerson = ConsoleColor.White;
-        public static ConsoleColor BAllPerson = ConsoleColor.DarkMagenta;
+        public static ConsoleColor BAllPerson = ConsoleColor.Black;
 
         /// <summary>
         /// 人が変わるときの文字色
@@ -67,17 +67,17 @@ namespace Simple_Werewolf
                 if (prevPerson != "")
                 {
                     Console.WriteLine("{0}さんから{1}さんに操作を変更してください。", prevPerson, nextPerson);
-                    Console.WriteLine("{0}さんに代わったらEnterキーを押してください、", nextPerson);
+                    Console.Write("{0}さんに代わったらEnterキーを押してください、", nextPerson);
                 }
                 else
                 {
                     Console.WriteLine("{0}さんが操作をしたください。", nextPerson);
-                    Console.WriteLine("{0}さんはEnterキーを押してください。", nextPerson);
+                    Console.Write("{0}さんはEnterキーを押してください。", nextPerson);
                 }
             }
             else
             {
-                Console.WriteLine("全員で画面を見てください。");
+                Console.Write("全員で画面を見てください。");
             }
             Console.ReadKey();
             Console.Clear();
@@ -89,15 +89,37 @@ namespace Simple_Werewolf
         /// <param name="time">時間(秒)</param>
         public static void wait(int time)
         {
-            for (int i = time; i >= 0; i--)
+            for (int i = time; i > 0; i--)
             {
                 Console.CursorLeft = 0;
                 Console.Write("{0}秒間待機してください。", i);
                 Thread.Sleep(1000);
             }
 
-            Console.WriteLine("\nEnterキーを押してください。");
+            Console.CursorLeft = 0;
+            Console.Write("Enterキーを押してください。");
             Console.ReadKey();
+        }
+
+        /// <summary>
+        /// 開始時間と終了時間で待たせる
+        /// </summary>
+        /// <param name="start">開始時刻</param>
+        /// <param name="end">終了時刻</param>
+        public static void TimeSpanWait(DateTime start, DateTime end)
+        {
+            TimeSpan dt = end - start;
+
+            if (dt.Seconds < 10)
+            {
+                int time = 10 - dt.Seconds;
+                wait(time);
+            }
+            else
+            {
+                Console.Write("Enterキーを押してください。");
+                Console.ReadKey();
+            }
         }
 
         /// <summary>

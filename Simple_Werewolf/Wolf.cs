@@ -54,20 +54,25 @@ namespace Simple_Werewolf
             //DisplayLibrary.ChangeColorClear(CommonLibrary.OnePerson);
             CommonLibrary.ChangeDisplayColor(1);
             DisplayThisCast();
-            Console.Write("他の人狼は");
-            
-            foreach(Wolf w in Otherwolf.Where(x=>(x != this)))
-            {
-                Console.Write("{0}さん　", w.PlayerName);
-            }
-            Console.WriteLine("です。");
 
+            if (Otherwolf.Where(x => (x != this)&&(x.isDead == false)).ToList().Count != 0)
+            {
+                Console.Write("他の人狼は");
+
+                foreach (Wolf w in Otherwolf.Where(x => (x != this)&&(x.isDead == false)))
+                {
+                    Console.Write("{0}さん　", w.PlayerName);
+                }
+                Console.WriteLine("です。");
+            }
+
+            DateTime start = DateTime.Now;
             Person target = ListUpMember(people.Where(x=>x.Position != PlayerPosition.Werewolf).ToList(),"今日のターゲットを選んでください。");
             target.isTarget = true;
+            DateTime end = DateTime.Now;
 
             Console.WriteLine("{0}さんを襲います。", target.PlayerName);
-            Console.WriteLine("Enterキーを押してください。");
-            Console.ReadKey();
+            CommonLibrary.TimeSpanWait(start, end);
         }
     }
 }

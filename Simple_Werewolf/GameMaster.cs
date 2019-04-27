@@ -46,13 +46,29 @@ namespace Simple_Werewolf
 
             while (isGameRun)
             {
+                /*
+                EachChackCast();
+                execution();
+                
+                if (ContinueDisplay())
+                {
+                    break;
+                }
+                */
+                
                 if (!firstloop) {
                     execution();
+                    if (ContinueDisplay())
+                    {
+                        //isGameRun = false;
+                        break;
+                    }
                 }
                 else
                 {
                     firstloop = false;
                 }
+                
                 NightAction();
                 NightProcess();
                 isGameRun = !ContinueDisplay();
@@ -182,13 +198,14 @@ namespace Simple_Werewolf
 
             Console.WriteLine();
 
+            int maxWidth = CastEnum.AllCastList().Select(x => (DisplayLibrary.StringCount(x.DisplayName()))).Max();
             foreach (var s in CastEnum.AllCastList().Select((v, i) => new { v, i }))
             {
                 //DisplayLibrary.ColorConsole("{0}", s.v.ForgroundColor(), s.v.BackgroundColor(), s.v.DisplayName());
                 CommonLibrary.WriteCastColor(s.v);
 
-                int space = 5 - s.v.DisplayName().Length; //文字スペース
-                Console.Write(new string(' ', space*2));
+                int space = maxWidth - DisplayLibrary.StringCount(s.v.DisplayName()); //文字スペース
+                Console.Write(new string(' ', space));
 
                 Console.WriteLine("{0,5}人", CastCount[s.v]);
             }
@@ -263,7 +280,6 @@ namespace Simple_Werewolf
                     wx.Otherwolf.Add(wy);
                 }
             }
-
         }
 
         /// <summary>
@@ -292,13 +308,14 @@ namespace Simple_Werewolf
 
             CommonLibrary.ChangeDisplayColor(0);
 
+            Console.WriteLine("夜が明けました。");
             if (Victim.Count == 0)
             {
-                Console.WriteLine("今夜の犠牲者はいませんでした。");
+                Console.WriteLine("昨晩の犠牲者はいませんでした。");
             }
             else
             {
-                Console.WriteLine("今夜の犠牲者は");
+                Console.WriteLine("昨晩の犠牲者は");
                 foreach(Person p in Victim)
                 {
                     Console.WriteLine("{0}さん", p.PlayerName);
@@ -414,13 +431,36 @@ namespace Simple_Werewolf
         /// </summary>
         public void DisplayCast()
         {
-            int width = Players.Select(x => x.PlayerName).ToList().Max().Length + 5;
+            int width = Players.Select(x => DisplayLibrary.StringCount(x.PlayerName)).ToList().Max() + 4;
             foreach(Person p in Players)
             {
-                string displayname = p.PlayerName + new string(' ', width - p.PlayerName.Length);
+                string displayname = p.PlayerName + new string(' ', width - DisplayLibrary.StringCount(p.PlayerName));
                 Console.Write(displayname);
                 CommonLibrary.WriteCastColor(p.Position);
                 Console.WriteLine();
+            }
+        }
+
+        /// <summary>
+        /// 各参加者に役職を確認させる。
+        /// </summary>
+        public void EachChackCast()
+        {
+            //CommonLibrary.ChangeDisplay("",Players[0].PlayerName,"まず最初に、各自が自分の役職を確認します。");
+
+            foreach(var EachPlayer in Players.Select((x,n)=>new {x,n}).ToList())
+            {
+                if (EachPlayer.n == 0)
+                {
+                    CommonLibrary.ChangeDisplay("", Players[0].PlayerName, "まず最初に、各自が自分の役職を確認します。");
+                }
+                else
+                {
+                    CommonLibrary.ChangeDisplay(Players[EachPlayer.n - 1].PlayerName, EachPlayer.x.PlayerName);
+                }
+                CommonLibrary.ChangeDisplayColor(1);
+                EachPlayer.x.DisplayThisCast();
+                CommonLibrary.wait(0);
             }
         }
 
