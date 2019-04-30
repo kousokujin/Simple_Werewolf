@@ -12,6 +12,7 @@ namespace Simple_Werewolf
         static public void MainTitle()
         {
             DisplayLibrary.ChangeColorClear();
+            Console.Title = "シンプル人狼";
             writetitle();
             int select = WriteGameMenu(3);
 
