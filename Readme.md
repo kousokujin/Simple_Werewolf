@@ -13,6 +13,9 @@
 ### 人狼のルール
 みんなご存知だと思うのでここでは省略
 
+## ダウンロード
+[ダウンロード](https://github.com/kousokujin/Simple_Werewolf/releases)
+
 ## License
 Copyright (c) 2019 kousokujin.
 
